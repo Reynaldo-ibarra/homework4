@@ -5,7 +5,7 @@
     const props = defineProps({
         total: {
             type: Number,
-            required: true,
+            require: true,
         }
     })
 

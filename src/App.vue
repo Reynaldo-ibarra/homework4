@@ -3,15 +3,11 @@ import Header from './components/Header.vue';
 import Balance from './components/Balance.vue';
 import IncomeExpense from './components/IncomeExpense.vue';
 import AddTransaction from './components/AddTransaction.vue';
+import TransactionList from './components/TransactionList.vue';
 import { ref } from 'vue'
 import { computed } from 'vue'
 
-const transactions = ref([
-    { id: 1, text:"Paycheck", amount: 700.00  },
-    { id: 2, text:"Water Bill", amount: -72.83  },
-    { id: 3, text:"Electric Bill", amount: -153.89  },
-    { id: 4, text:"Returned Item", amount: 20.00  },
-])
+const transactions = ref([])
 
     const sum = computed(()=>{
         return transactions.value.reduce((acc, x) => { return acc + x.amount 
@@ -34,6 +30,22 @@ const transactions = ref([
         }, 0)
     })
 
+    const handleTransaction = (transactionData) => {
+        transactions.value.push({
+            id: generateId(),
+            text: transactionData.text,
+            amount: transactionData.amount,
+        })
+           
+    }
+
+    const generateId = () => {
+        return Math.floor(Math.random() * 100000000)
+    }
+
+    const handleDelete = (id) => {
+        transactions.value = transactions.value.filter((x) => x.id !== id)
+    }
 </script> 
 
 
@@ -42,7 +54,8 @@ const transactions = ref([
 <div class = "container">
     <Balance :total="sum"></Balance>
     <IncomeExpense :income="moneyIn" :expense="moneyOut"></IncomeExpense>
-    <AddTransaction></AddTransaction>
+    <AddTransaction @transactionSubmitted="handleTransaction"></AddTransaction>
+    <TransactionList :transactions="transactions" @transactionDeleted="handleDelete"></TransactionList>
 </div>
 
     

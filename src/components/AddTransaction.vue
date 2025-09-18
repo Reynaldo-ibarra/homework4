@@ -1,10 +1,12 @@
 <script setup>
-    import { ref, defineEmits } from 'vue'
-import { parse } from 'vue/compiler-sfc'
+    import {ref, defineEmits} from 'vue'
+    
     const text = ref('')
     const amount = ref('')   
 
-    const emit = defineEmits(['transactionSubmitted'])
+    const emit = defineEmits([
+        'transactionSubmitted'
+    ])
 
     const onSubmit = () => {
         const transactionData = {
